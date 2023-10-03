@@ -1,13 +1,11 @@
-import { IsNumber, IsDate, IsOptional } from 'class-validator';
+import { IsNumber, IsNotEmpty } from 'class-validator';
 
 export class CreateTransactionDto {
   @IsNumber()
+  @IsNotEmpty()
   member_id: number;
 
   @IsNumber()
+  @IsNotEmpty()
   book_id: number;
-
-  @IsDate()
-  @IsOptional()
-  return_date: Date;
 }

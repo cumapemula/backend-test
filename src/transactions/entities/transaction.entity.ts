@@ -4,4 +4,5 @@ export interface ITransaction {
   book_id: number;
   borrowing_date: Date;
   return_date: Date;
+  returned: boolean;
 }
