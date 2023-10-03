@@ -1,25 +1,62 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateBookDto } from './dto/update-book.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class BooksService {
-  create() {
-    return 'This action adds a new book';
+  constructor(private prisma: PrismaService) {}
+
+  async findAll() {
+    try {
+      const books = await this.prisma.books.findMany({
+        where: {
+          stock: {
+            gt: 0,
+          },
+        },
+        orderBy: {
+          id: 'asc',
+        },
+      });
+      return books;
+    } catch (error) {
+      return { message: error.message };
+    }
   }
 
-  findAll() {
-    return `This action returns all books`;
+  async findOne(book_id: number) {
+    try {
+      const book = await this.prisma.books.findUnique({
+        where: { id: book_id },
+      });
+      return book;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+  async reduceStock(book_id: number) {
+    try {
+      await this.prisma.books.update({
+        where: { id: book_id },
+        data: {
+          stock: 0,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} book`;
+  async increaseStock(book_id: number) {
+    try {
+      await this.prisma.books.update({
+        where: { id: book_id },
+        data: {
+          stock: 1,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
