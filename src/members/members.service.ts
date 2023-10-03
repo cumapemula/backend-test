@@ -1,24 +1,80 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class MembersService {
-  create() {
-    return 'This action adds a new member';
+  constructor(private prisma: PrismaService) {}
+
+  async findAll() {
+    try {
+      const members = await this.prisma.members.findMany({
+        select: {
+          id: true,
+          code: true,
+          name: true,
+          is_penalty: true,
+          transactions: {
+            where: {
+              returned: false,
+            },
+          },
+        },
+        orderBy: {
+          id: 'asc',
+        },
+      });
+      return members;
+    } catch (error) {
+      return { message: error.message };
+    }
   }
 
-  findAll() {
-    return `This action returns all members`;
+  async findOne(id: number) {
+    try {
+      const member = await this.prisma.members.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      return member;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
+  async setPenalty(member_id: number, date: Date) {
+    try {
+      const member = await this.prisma.members.update({
+        where: {
+          id: member_id,
+        },
+        data: {
+          penalty_end_date: date,
+          is_penalty: true,
+        },
+      });
+
+      return member;
+    } catch (error) {
+      return { message: error.message };
+    }
   }
 
-  update(id: number) {
-    return `This action updates a #${id} member`;
-  }
+  async removePenalty(member_id: number) {
+    try {
+      const member = await this.prisma.members.update({
+        where: {
+          id: member_id,
+        },
+        data: {
+          is_penalty: false,
+        },
+      });
 
-  remove(id: number) {
-    return `This action removes a #${id} member`;
+      return member;
+    } catch (error) {
+      return { message: error.message };
+    }
   }
 }
