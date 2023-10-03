@@ -9,13 +9,16 @@ datasource db {
 
 model Members {
   id Int @default(autoincrement()) @id
-  code String
+  code String @unique
   name String
+  transactions Transactions[]
+  is_penalty Boolean @default(false)
+  penalty_end_date DateTime?
 }
 
 model Books {
   id Int @default(autoincrement()) @id
-  code String
+  code String @unique
   title String
   author String
   stock Int @default(0)
@@ -25,6 +28,8 @@ model Transactions {
   id Int @default(autoincrement()) @id
   member_id Int
   book_id Int
+  member Members? @relation(fields: [member_id], references: [id])
   borrowing_date DateTime @default(now())
-  return_date DateTime
+  return_date DateTime?
+  returned Boolean @default(false)
 }
