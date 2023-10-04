@@ -1,32 +1,20 @@
-import { Controller, Get, Post, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { MembersService } from './members.service';
+import { ApiTags, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { Member } from './entities/member.entity';
 
+@ApiTags('members')
 @Controller('members')
 export class MembersController {
   constructor(private readonly membersService: MembersService) {}
 
-  @Post()
-  create() {
-    return;
-  }
-
   @Get()
+  @ApiOperation({ summary: 'Show all existing members' })
+  @ApiOkResponse({
+    description: 'Shows all active members along with a list of books borrowed',
+    type: [Member],
+  })
   findAll() {
     return this.membersService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.membersService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string) {
-    return this.membersService.update(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.membersService.remove(+id);
   }
 }
