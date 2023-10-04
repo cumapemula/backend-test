@@ -21,6 +21,7 @@ $ yarn start:dev
 # production mode
 $ yarn start:prod
 ```
+API Documentation : "/api/docs"
 
 ## Use Case
 
