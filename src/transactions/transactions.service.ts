@@ -20,7 +20,7 @@ export class TransactionsService {
     const today = new Date();
     const timeDifferences = getTimeDifference(
       today,
-      checkPenalty.penalty_end_date,
+      checkPenalty?.penalty_end_date,
     );
     if (checkPenalty.is_penalty && timeDifferences.day >= 0) {
       await this.memberService.removePenalty(dto.member_id);

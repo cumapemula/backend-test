@@ -36,12 +36,13 @@ export class BooksService {
 
   async reduceStock(book_id: number) {
     try {
-      await this.prisma.books.update({
+      const updated = await this.prisma.books.update({
         where: { id: book_id },
         data: {
           stock: 0,
         },
       });
+      return updated;
     } catch (error) {
       console.error(error);
     }
@@ -49,12 +50,13 @@ export class BooksService {
 
   async increaseStock(book_id: number) {
     try {
-      await this.prisma.books.update({
+      const updated = await this.prisma.books.update({
         where: { id: book_id },
         data: {
           stock: 1,
         },
       });
+      return updated;
     } catch (error) {
       console.error(error);
     }
