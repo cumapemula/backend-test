@@ -1,6 +1,6 @@
-import { IBook } from 'src/books/entities/book.entity';
+import { Book } from 'src/books/entities/book.entity';
 
-export const bookSeed: IBook[] = [
+export const bookSeed: Book[] = [
   {
     code: 'JK-45',
     title: 'Harry Potter',

@@ -1,6 +1,6 @@
-import { IMember } from 'src/members/entities/member.entity';
+import { Member } from 'src/members/entities/member.entity';
 
-export const memberSeed: IMember[] = [
+export const memberSeed: Member[] = [
   {
     code: 'M001',
     name: 'Angga',
