@@ -58,10 +58,6 @@ export class TransactionsService {
     }
   }
 
-  findAll() {
-    return `This action returns all transactions`;
-  }
-
   async findOne(member_id: number) {
     try {
       const transaction = await this.prisma.transactions.findMany({
