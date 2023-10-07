@@ -72,6 +72,19 @@ export class TransactionsService {
     }
   }
 
+  async findAll() {
+    try {
+      const transaction = await this.prisma.transactions.findMany({
+        where: {
+          returned: false,
+        },
+      });
+      return transaction;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async returnBook(dto: UpdateTransactionDto) {
     try {
       const checkTransaction = await this.prisma.transactions.findFirstOrThrow({

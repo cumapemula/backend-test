@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Patch } from '@nestjs/common';
+import { Controller, Post, Body, Patch, Get } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -14,6 +14,16 @@ import { Transaction } from './entities/transaction.entity';
 @Controller('transactions')
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
+
+  @Get()
+  @ApiOperation({ summary: 'Get all transactions' })
+  @ApiOkResponse({
+    description: 'Return all transactions',
+    type: Transaction,
+  })
+  findAll() {
+    return this.transactionsService.findAll();
+  }
 
   @Post()
   @ApiOperation({ summary: 'Create book loan transaction' })
